@@ -14,7 +14,12 @@ terminal O_COMPARE, O_DISTINCT, O_GT, O_LT, O_GET, O_LET;
 terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
 
 
-non terminal program, statement, simple_statement, arithmetic, arithmetic_op, extra_arithmetic,  assign, constant, numeric, numeric_constants, comparison, comparison_op, boolean_constants, comparison_operands, boolean, arithmetic_operands, extra_comparison, text, text_constants;
+non terminal program, statement, simple_statement, assign, constant;
+non terminal text, text_constants;
+non terminal numeric, numeric_constants;
+non terminal boolean, boolean_constants;
+non terminal arithmetic, arithmetic_op, extra_arithmetic ,arithmetic_operands;
+non terminal comparison, comparison_op, extra_comparison, comparison_operands;
 
 program                 ::= statement program
                         | LINE_END program
