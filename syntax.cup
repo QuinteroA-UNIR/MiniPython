@@ -8,11 +8,13 @@ terminal C_BOOL, C_INT, C_REAL, C_TXT;
 terminal OP_EQ;
 //arithmetic
 terminal O_PLUS, O_MINUS, O_MULT, O_DIV, O_MOD, O_POW, O_FLOOR;
+//comparison
+terminal O_COMPARE, O_DISTINCT, O_GT, O_LT, O_GET, O_LET;
 // reserved kw 
 terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
 
 
-non terminal program, statement, simple_statement, arithmetic, arithmetic_op, extra_arithmetic,  assign, constant, numeric, numeric_constants;
+non terminal program, statement, simple_statement, arithmetic, arithmetic_op, extra_arithmetic,  assign, constant, numeric, numeric_constants, comparison, comparison_op, boolean_constants, comparison_operands, boolean, arithmetic_operands, extra_comparison, text, text_constants;
 
 program                 ::= statement program
                         | LINE_END program
@@ -24,12 +26,30 @@ statement               ::= simple_statement
 
 simple_statement        ::= assign
                         | arithmetic
+                        | comparison
                         ;
 
-arithmetic              ::= numeric_constants arithmetic_op numeric_constants extra_arithmetic
+arithmetic_operands     ::= numeric_constants
+                        | IDENT
                         ;
 
-extra_arithmetic        ::= arithmetic_op numeric_constants extra_arithmetic
+comparison_operands     ::= numeric_constants
+                        | boolean_constants
+                        | text_constants
+                        | IDENT
+                        ;
+
+arithmetic              ::= arithmetic_operands arithmetic_op arithmetic_operands extra_arithmetic
+                        ;
+
+extra_arithmetic        ::= arithmetic_op arithmetic_operands extra_arithmetic
+                        |
+                        ;
+
+comparison              ::= comparison_operands comparison_op comparison_operands extra_comparison
+                        ;
+                
+extra_comparison        ::= comparison_op comparison_operands extra_comparison
                         |
                         ;
 
@@ -42,6 +62,14 @@ arithmetic_op            ::= O_PLUS
                         | O_FLOOR
                         ;
 
+comparison_op           ::= O_COMPARE
+                        | O_DISTINCT
+                        | O_GT
+                        | O_LT
+                        | O_GET
+                        | O_LET
+                        ;
+
 assign                  ::= IDENT OP_EQ constant
                         ;
 
@@ -49,11 +77,24 @@ numeric                 ::= numeric_constants
                         | arithmetic
                         ;
 
-constant                ::= C_BOOL
-                        | C_TXT
+boolean                 ::= boolean_constants
+                        | comparison
+                        ;
+
+text                    ::= text_constants
+                        ;
+
+constant                ::= boolean
+                        | text
                         | numeric
                         ;
 
 numeric_constants       ::= C_INT
                         | C_REAL
+                        ;
+
+boolean_constants       ::= C_BOOL
+                        ;
+
+text_constants          ::= C_TXT
                         ;

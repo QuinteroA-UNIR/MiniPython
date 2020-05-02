@@ -77,13 +77,20 @@ ConstanteBooleana = {Verdadero} | {Falso}
 "//"                            {System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_FLOOR);}
 //Operadores Comparativos
-"=="                            {System.out.println("Operador: " + yytext());}
-"!="                            {System.out.println("Operador: " + yytext());}
-"<>"                            {System.out.println("Operador: " + yytext());}
-">"                             {System.out.println("Operador: " + yytext());}
-"<"                             {System.out.println("Operador: " + yytext());}
-">="                            {System.out.println("Operador: " + yytext());}
-"<="                            {System.out.println("Operador: " + yytext());}
+"=="                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_COMPARE);}
+"!="                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_DISTINCT);}
+"<>"                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_DISTINCT);}
+">"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_GT);}
+"<"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_LT);}
+">="                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_GET);}
+"<="                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_LET);}
 //Operadores booleanos
 "and"                           {System.out.println("Operador: " + yytext());}
 "or"                            {System.out.println("Operador: " + yytext());}
