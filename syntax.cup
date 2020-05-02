@@ -18,7 +18,8 @@ terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
 terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, D_BRACE_R, D_COMMA, D_COLON;
 
 
-non terminal program, statement, simple_statement, assign, assignee, constant;
+non terminal program, statement, simple_statement, compound_statement, assign, assignee, constant;
+non terminal if, if_condition, if_block, if_ending, if_inner_content, if_inner_helper;
 non terminal print, print_content;
 non terminal tuple, tuple_content, tuple_content_helper;
 non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
@@ -36,8 +37,32 @@ program                 ::= statement program
                         ;
 
 statement               ::= simple_statement
+                        | compound_statement
                         | assignee
                         ;
+
+compound_statement      ::= if_block;
+
+if_condition            ::= boolean
+                        | IDENT
+                        ;
+
+if_block                ::= P_IF if_condition D_COLON if_inner_content if_ending
+                        ;
+
+if_ending               ::= P_ELSE D_COLON if_inner_content P_ENDIF
+                        | P_ENDIF
+                        ;
+
+if_inner_content        ::= TAB if_inner_helper
+                        | LINE_END if_inner_content
+                        |
+                        ;
+
+if_inner_helper         ::= statement if_inner_content
+                        | LINE_END if_inner_content
+                        ;
+                        
 
 simple_statement        ::= assign
                         | print
