@@ -104,14 +104,30 @@ ConstanteBooleana = {Verdadero} | {Falso}
                                 return new Symbol(sym.OP_EQ);}
 
 //Delimitadores
-"("                             {System.out.println("Delimitador: " + yytext());}
-")"                             {System.out.println("Delimitador: " + yytext());}
-"["                             {System.out.println("Delimitador: " + yytext());}
-"]"                             {System.out.println("Delimitador: " + yytext());}
-"{"                             {System.out.println("Delimitador: " + yytext());}
-"}"                             {System.out.println("Delimitador: " + yytext());}
-","                             {System.out.println("Delimitador: " + yytext());}
-":"                             {System.out.println("Delimitador: " + yytext());}
+"("                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_PARENTHESIS_L);}
+
+")"                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_PARENTHESIS_R);}
+
+"["                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_BRACKET_L);}
+
+"]"                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_BRACKET_R);}
+
+"{"                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_BRACE_L);}
+
+"}"                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_BRACE_R);}
+
+","                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_COMMA);}
+
+":"                             {System.out.println("Delimitador: " + yytext());
+                                return new Symbol(sym.D_COLON);}
+
 {Tabulador}                     {System.out.println("Delimitador: tabulador");
                                 return new Symbol(sym.TAB);}
 {FinLinea}                      {System.out.println("Delimitador: fin linea");

@@ -14,9 +14,12 @@ terminal O_COMPARE, O_DISTINCT, O_GT, O_LT, O_GET, O_LET;
 terminal O_AND, O_OR, O_NOT;
 // reserved kw 
 terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
+// delimiters
+terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, D_BRACE_R, D_COMMA, D_COLON;
 
 
-non terminal program, statement, simple_statement, assign, constant;
+non terminal program, statement, simple_statement, assign, assignee, constant;
+non terminal tuple, tuple_content;
 non terminal text, text_constants;
 non terminal numeric, numeric_constants;
 non terminal boolean, boolean_constants;
@@ -93,7 +96,18 @@ boolean_op              ::= O_AND
                         | O_OR
                         ;
 
-assign                  ::= IDENT OP_EQ constant
+assign                  ::= IDENT OP_EQ assignee
+                        ;
+
+assignee                ::= constant
+                        | tuple
+                        ;
+
+tuple                   ::= D_PARENTHESIS_L constant tuple_content D_PARENTHESIS_R
+                        ;
+                
+tuple_content           ::= D_COMMA constant tuple_content
+                        | 
                         ;
 
 numeric                 ::= numeric_constants
