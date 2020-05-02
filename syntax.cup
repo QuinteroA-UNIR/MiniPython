@@ -13,24 +13,21 @@ terminal LINE_END,
 ,P_ENDDEF
 ,TAB
 ;
-non terminal program, lines, line, constant, assign, lineend;
+non terminal program, statement, assign, constant;
 
-program         ::= lines
-                |
-                ;
+program                 ::= statement program
+                        | LINE_END program
+                        |
+                        ;
 
-lines           ::= lines line
-                | line lineend
-                ;
+statement               ::= assign
+                        ;
 
-lineend         ::= LINE_END
-                ;
+assign                  ::= IDENT OP_EQ constant
+                        ;
 
-line            ::= assign
-                | LINE_END
-                ;
-
-assign          ::= IDENT OP_EQ constant;
-
-constant        ::= C_BOOL | C_INT | C_REAL | C_TXT;
-
+constant                ::= C_BOOL
+                        | C_INT
+                        | C_REAL
+                        | C_TXT
+                        ;
