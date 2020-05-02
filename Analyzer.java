@@ -12,7 +12,7 @@ public class Analyzer {
         Lexer l = new Lexer(reader);
         parser p = new parser(l);
         try {
-            p.debug_parse();
+            p.parse();
             // p.debug_parse();
             System.out.println("\nCadena correcta:");
         } catch (Exception e) {
