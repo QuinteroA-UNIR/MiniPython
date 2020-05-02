@@ -1,33 +1,59 @@
-terminal LINE_END, 
-        IDENT,
-        C_BOOL, C_INT, C_REAL, C_TXT,
-        OP_EQ
-,P_PRINT
-,P_IF
-,P_ELSE
-,P_ENDIF
-,P_FOR
-,P_IN
-,P_ENDFOR
-,P_DEF
-,P_ENDDEF
-,TAB
-;
-non terminal program, statement, assign, constant;
+// markers
+terminal LINE_END, TAB;
+// idents
+terminal IDENT;
+// constants
+terminal C_BOOL, C_INT, C_REAL, C_TXT;
+// operators
+terminal OP_EQ;
+//arithmetic
+terminal O_PLUS, O_MINUS, O_MULT, O_DIV, O_MOD, O_POW, O_FLOOR;
+// reserved kw 
+terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
+
+
+non terminal program, statement, simple_statement, arithmetic, arithmetic_op, extra_arithmetic,  assign, constant, numeric, numeric_constants;
 
 program                 ::= statement program
                         | LINE_END program
                         |
                         ;
 
-statement               ::= assign
+statement               ::= simple_statement
+                        ;
+
+simple_statement        ::= assign
+                        | arithmetic
+                        ;
+
+arithmetic              ::= numeric_constants arithmetic_op numeric_constants extra_arithmetic
+                        ;
+
+extra_arithmetic        ::= arithmetic_op numeric_constants extra_arithmetic
+                        |
+                        ;
+
+arithmetic_op            ::= O_PLUS
+                        | O_MINUS
+                        | O_MULT
+                        | O_DIV
+                        | O_MOD
+                        | O_POW
+                        | O_FLOOR
                         ;
 
 assign                  ::= IDENT OP_EQ constant
                         ;
 
+numeric                 ::= numeric_constants
+                        | arithmetic
+                        ;
+
 constant                ::= C_BOOL
-                        | C_INT
-                        | C_REAL
                         | C_TXT
+                        | numeric
+                        ;
+
+numeric_constants       ::= C_INT
+                        | C_REAL
                         ;

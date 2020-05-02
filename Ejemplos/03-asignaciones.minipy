@@ -1,0 +1,49 @@
+#asignacion bool
+variable = True
+v4r14bl3 = False
+
+
+#asignacion int
+_variable = 1 
+_v4r14bl3 = +1
+VARIABLE = -1
+V4R14BL3 = 123445345435
+_VARIABLE = +123445345435 
+_V4r14bL3 = -123445345435
+
+# asignacion real
+x = 1e1
+x = 1e12
+x = 1e+1
+x = 1e-1
+x = 1e+10
+x = 1e-10
+x = 1.123e1
+x = 1.123e+1
+x = 1.123e-1
+x = 1.123e+10
+x = 1.123e-10
+x = +1.123e1
+x = +1.123e+1
+x = +1.123e-1
+x = -1.123e1
+x = -1.123e+1
+x = -1.123e+1
+x = 1.1
+x = 1.234
+x = +1.1
+x = -1.1
+x = +123.1
+x = -1333.1
+x = 1.
+x = 10.
+
+# asignacion string
+x = 'string'
+x = "string"
+x = '"string"'
+x = "'string'"
+x = "\"string\""
+x = '\'string\''
+x = "    \"  "
+x = "    \"  "

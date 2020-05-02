@@ -62,13 +62,20 @@ ConstanteBooleana = {Verdadero} | {Falso}
 {ComentarioLinea}               {System.out.println("Comentario de linea: " + yytext());}
 
 //Operadores Artimeticos
-"+"                             {System.out.println("Operador: " + yytext());}
-"-"                             {System.out.println("Operador: " + yytext());}
-"*"                             {System.out.println("Operador: " + yytext());}
-"/"                             {System.out.println("Operador: " + yytext());}
-"%"                             {System.out.println("Operador: " + yytext());}
-"**"                            {System.out.println("Operador: " + yytext());}
-"//"                            {System.out.println("Operador: " + yytext());}
+"+"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_PLUS);}
+"-"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_MINUS);}
+"*"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_MULT);}
+"/"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_DIV);}
+"%"                             {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_MOD);}
+"**"                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_POW);}
+"//"                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_FLOOR);}
 //Operadores Comparativos
 "=="                            {System.out.println("Operador: " + yytext());}
 "!="                            {System.out.println("Operador: " + yytext());}
