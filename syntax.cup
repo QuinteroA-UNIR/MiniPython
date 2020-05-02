@@ -19,6 +19,7 @@ terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, 
 
 
 non terminal program, statement, simple_statement, assign, assignee, constant;
+non terminal print, print_content;
 non terminal tuple, tuple_content, tuple_content_helper;
 non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
 non terminal array, array_content, array_content_helper;
@@ -35,10 +36,18 @@ program                 ::= statement program
                         ;
 
 statement               ::= simple_statement
+                        | assignee
                         ;
 
 simple_statement        ::= assign
-                        | constant
+                        | print
+                        ;
+
+print                   ::= P_PRINT print_content
+                        ;
+
+print_content           ::= D_PARENTHESIS_L simple_statement D_PARENTHESIS_R
+                        | assignee
                         ;
 
 arithmetic_operands     ::= numeric_constants
