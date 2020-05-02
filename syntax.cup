@@ -22,6 +22,7 @@ non terminal numeric, numeric_constants;
 non terminal boolean, boolean_constants;
 non terminal arithmetic, arithmetic_op, extra_arithmetic ,arithmetic_operands;
 non terminal comparison, comparison_op, extra_comparison, comparison_operands;
+non terminal boolean_arith, boolean_op, extra_boolean, boolean_operands;
 
 program                 ::= statement program
                         | LINE_END program
@@ -32,8 +33,7 @@ statement               ::= simple_statement
                         ;
 
 simple_statement        ::= assign
-                        | arithmetic
-                        | comparison
+                        | constant
                         ;
 
 arithmetic_operands     ::= numeric_constants
@@ -43,6 +43,11 @@ arithmetic_operands     ::= numeric_constants
 comparison_operands     ::= numeric_constants
                         | boolean_constants
                         | text_constants
+                        | IDENT
+                        ;
+
+boolean_operands        ::= O_NOT boolean_operands
+                        | boolean_constants
                         | IDENT
                         ;
 
@@ -57,6 +62,13 @@ comparison              ::= comparison_operands comparison_op comparison_operand
                         ;
                 
 extra_comparison        ::= comparison_op comparison_operands extra_comparison
+                        |
+                        ;
+
+boolean_arith           ::= boolean_operands boolean_op boolean_operands extra_boolean
+                        ;
+
+extra_boolean           ::= boolean_op boolean_operands extra_boolean
                         |
                         ;
 
@@ -77,6 +89,10 @@ comparison_op           ::= O_COMPARE
                         | O_LET
                         ;
 
+boolean_op              ::= O_AND
+                        | O_OR
+                        ;
+
 assign                  ::= IDENT OP_EQ constant
                         ;
 
@@ -86,6 +102,8 @@ numeric                 ::= numeric_constants
 
 boolean                 ::= boolean_constants
                         | comparison
+                        | boolean_arith
+                        | O_NOT boolean_constants
                         ;
 
 text                    ::= text_constants

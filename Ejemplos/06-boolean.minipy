@@ -1,0 +1,99 @@
+True
+False
+not True
+not False
+
+True and True
+False and False
+not True and not True
+not False and not False
+
+True or True
+False or False
+not True or not True
+not False or not False
+
+not True and True
+not False and False
+not not True and not True
+not not False and not False
+
+not True or True
+not False or False
+not not True or not True
+not not False or not False
+
+True and  not True
+False and not  False
+not True and  not not True
+not False and not  not False
+
+True or  not True
+False or not  False
+not True or not  not True
+not False or not  not False
+
+
+not True and  not True
+not False and not  False
+not not True and  not not True
+not not False and not  not False
+
+not True or  not True
+not False or not  False
+not not True or not  not True
+not not False or not  not False
+
+
+
+
+
+
+
+var = True
+var = False
+var = not True
+var = not False
+
+var = True and True
+var = False and False
+var = not True and not True
+var = not False and not False
+
+var = True or True
+var = False or False
+var = not True or not True
+var = not False or not False
+
+var = not True and True
+var = not False and False
+var = not not True and not True
+var = not not False and not False
+
+var = not True or True
+var = not False or False
+var = not not True or not True
+var = not not False or not False
+
+var = True and  not True
+var = False and not  False
+var = not True and  not not True
+var = not False and not  not False
+var = True or  not True
+
+var = False or not  False
+var = not True or not  not True
+var = not False or not  not False
+
+
+var = not True and  not True
+var = not False and not  False
+var = not not True and  not not True
+var = not not False and not  not False
+
+var = not True or  not True
+var = not False or not  False
+var = not not True or not  not True
+var = not not False or not  not False
+
+var  = not not not not not not not not not True and False

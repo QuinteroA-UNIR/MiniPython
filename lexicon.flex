@@ -49,6 +49,14 @@ ConstanteBooleana = {Verdadero} | {Falso}
 "enddef"                        {System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_ENDDEF);}
 
+//Operadores booleanos
+"and"                           {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_AND);}
+"or"                            {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_OR);}
+"not"                           {System.out.println("Operador: " + yytext());
+                                return new Symbol(sym.O_NOT);}
+
 {ConstanteBooleana}             {System.out.println("Constante booleana: " + yytext());
                                 return new Symbol(sym.C_BOOL);}
 {Identificador}                 {System.out.println("Identificador: "+ yytext());
@@ -91,10 +99,6 @@ ConstanteBooleana = {Verdadero} | {Falso}
                                 return new Symbol(sym.O_GET);}
 "<="                            {System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_LET);}
-//Operadores booleanos
-"and"                           {System.out.println("Operador: " + yytext());}
-"or"                            {System.out.println("Operador: " + yytext());}
-"not"                           {System.out.println("Operador: " + yytext());}
 //Operadores de asignacion
 "="                             {System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.OP_EQ);}
