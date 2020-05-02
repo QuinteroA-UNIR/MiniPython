@@ -1,0 +1,36 @@
+terminal LINE_END, 
+        IDENT,
+        C_BOOL, C_INT, C_REAL, C_TXT,
+        OP_EQ
+,P_PRINT
+,P_IF
+,P_ELSE
+,P_ENDIF
+,P_FOR
+,P_IN
+,P_ENDFOR
+,P_DEF
+,P_ENDDEF
+,TAB
+;
+non terminal program, lines, line, constant, assign, lineend;
+
+program         ::= lines
+                |
+                ;
+
+lines           ::= lines line
+                | line lineend
+                ;
+
+lineend         ::= LINE_END
+                ;
+
+line            ::= assign
+                | LINE_END
+                ;
+
+assign          ::= IDENT OP_EQ constant;
+
+constant        ::= C_BOOL | C_INT | C_REAL | C_TXT;
+

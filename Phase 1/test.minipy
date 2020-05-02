@@ -1,0 +1,55 @@
+# comentario de linea true
+# comentario True
+#   comen   tario # asd False
+
+variable = True
+v4r14bl3 = False
+_variable = 
+_v4r14bl3 =
+VARIABLE = 
+V4R14BL3 =
+_VARIABLE = 
+_V4r14bL3 =
+
+1
++1
+-1
+123445345435
++123445345435
+-123445345435
+
+1e1
+1e12
+1e+1
+1e-1
+1e+10
+1e-10
+1.123e1
+1.123e+1
+1.123e-1
+1.123e+10
+1.123e-10
++1.123e1
++1.123e+1
++1.123e-1
+-1.123e1
+-1.123e+1
+-1.123e+1
+1.1
+1.234
++1.1
+-1.1
++123.1
+-1333.1
+1.
+10.
+
+x = 'string'
+x = "string"
+x = '"string"'
+x = "'string'"
+x = "\"string\""
+x = '\'string\''
+
+x = "    \"  "
+x = "    \"  ""
