@@ -10,6 +10,8 @@ terminal OP_EQ;
 terminal O_PLUS, O_MINUS, O_MULT, O_DIV, O_MOD, O_POW, O_FLOOR;
 //comparison
 terminal O_COMPARE, O_DISTINCT, O_GT, O_LT, O_GET, O_LET;
+//boolean
+terminal O_AND, O_OR, O_NOT;
 // reserved kw 
 terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
 
@@ -92,6 +94,7 @@ text                    ::= text_constants
 constant                ::= boolean
                         | text
                         | numeric
+                        | IDENT
                         ;
 
 numeric_constants       ::= C_INT
