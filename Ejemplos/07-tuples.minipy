@@ -1,4 +1,6 @@
-x = ('1',2,True3)
+x = ('1',2,True)
 x = (True)
 x = ("wqedasdas")
 x = (2e34)
+x = ()
+x = ( (1,2,3),('as'),True,False, 123, 'asdasd' )

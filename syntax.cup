@@ -19,7 +19,8 @@ terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, 
 
 
 non terminal program, statement, simple_statement, assign, assignee, constant;
-non terminal tuple, tuple_content;
+non terminal tuple, tuple_content, tuple_content_helper;
+non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
 non terminal text, text_constants;
 non terminal numeric, numeric_constants;
 non terminal boolean, boolean_constants;
@@ -101,13 +102,32 @@ assign                  ::= IDENT OP_EQ assignee
 
 assignee                ::= constant
                         | tuple
+                        | dictionary
                         ;
 
-tuple                   ::= D_PARENTHESIS_L constant tuple_content D_PARENTHESIS_R
+tuple                   ::= D_PARENTHESIS_L tuple_content  D_PARENTHESIS_R
+                        ;
+
+tuple_content           ::= assignee tuple_content_helper
+                        |
                         ;
                 
-tuple_content           ::= D_COMMA constant tuple_content
+tuple_content_helper    ::= D_COMMA assignee tuple_content_helper
                         | 
+                        ;
+
+dictionary              ::= D_BRACE_L dictionary_content D_BRACE_R
+                        ;
+
+dictionary_content      ::= key_value_pair dict_content_helper
+                        |
+                        ;
+
+dict_content_helper     ::= D_COMMA key_value_pair dict_content_helper
+                        |
+                        ;
+
+key_value_pair          ::= text_constants D_COLON assignee
                         ;
 
 numeric                 ::= numeric_constants
