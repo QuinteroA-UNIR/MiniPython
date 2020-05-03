@@ -17,12 +17,14 @@ terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF,
 // delimiters
 terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, D_BRACE_R, D_COMMA, D_COLON;
 
-
-non terminal program, statement, compound_statement, assign, assignee, constant, suite, suite_helper;
+non terminal program, actions, new_lines, statements, statement, compound_statement;
+non terminal assign, assignee, constant, suite, suite_helper;
 non terminal if_condition, if_statement, if_ending, if_ident_helper;
 non terminal for_statement, in_arguments;
-non terminal def_statement, func_arguments, func_arguments_helper, function_body, func_body_helper, func_body_stmts;
+non terminal def_statement, func_arguments, func_arguments_helper;
 non terminal print, print_content;
+non terminal return, return_helper;
+non terminal function_call, func_call_args, func_call_args_helper;
 non terminal tuple, tuple_content, tuple_content_helper;
 non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
 non terminal array, array_content, array_content_helper;
@@ -33,23 +35,43 @@ non terminal arithmetic, arithmetic_op, extra_arithmetic ,arithmetic_operands;
 non terminal comparison, comparison_op, extra_comparison, comparison_operands;
 non terminal boolean_arith, boolean_op, extra_boolean, boolean_operands;
 
-program                 ::= statement program
-                        | LINE_END program
+
+
+program                 ::= actions
+                        | new_lines
+                        ;
+
+actions                 ::= new_lines statement statements
+                        ;
+           
+return                  ::= P_RETURN return_helper
+                        ;
+
+return_helper           ::= assignee
                         |
+                        ;
+
+new_lines               ::= LINE_END new_lines
+                        |
+                        ;
+
+statements              ::= LINE_END new_lines statement statements
+                        | new_lines
                         ;
 
 statement               ::= compound_statement
                         | assign
                         | assignee
+                        | print
+                        | return
                         ;
 
 compound_statement      ::= def_statement
                         | if_statement
                         | for_statement
-                        | print
                         ;
 
-def_statement           ::= P_DEF IDENT D_PARENTHESIS_L func_arguments D_PARENTHESIS_R D_COLON function_body P_ENDDEF
+def_statement           ::= P_DEF IDENT D_PARENTHESIS_L func_arguments D_PARENTHESIS_R D_COLON new_lines suite P_ENDDEF
                         ;
 
 func_arguments          ::= IDENT func_arguments_helper
@@ -60,21 +82,7 @@ func_arguments_helper   ::= D_COMMA IDENT func_arguments_helper
                         |
                         ;
 
-function_body           ::= TAB func_body_helper DEDENT
-                        | LINE_END function_body
-                        |
-                        ;
-
-func_body_helper        ::= func_body_stmts func_body_helper
-                        | LINE_END func_body_helper
-                        |
-                        ;
-
-func_body_stmts         ::= statement
-                        | P_RETURN assignee
-                        ;
-
-if_statement            ::= P_IF if_condition D_COLON LINE_END suite if_ending
+if_statement            ::= P_IF if_condition D_COLON LINE_END new_lines suite if_ending
                         ;
 
 if_condition            ::= boolean
@@ -86,11 +94,11 @@ if_ident_helper         ::= P_IN in_arguments
                         | 
                         ;
 
-if_ending               ::= P_ELSE D_COLON LINE_END suite P_ENDIF
+if_ending               ::= P_ELSE D_COLON LINE_END new_lines suite P_ENDIF
                         | P_ENDIF
                         ;
 
-for_statement           ::= P_FOR IDENT P_IN in_arguments D_COLON LINE_END suite P_ENDFOR
+for_statement           ::= P_FOR IDENT P_IN in_arguments D_COLON LINE_END new_lines suite P_ENDFOR
                         ;
 
 in_arguments            ::= dictionary
@@ -98,13 +106,11 @@ in_arguments            ::= dictionary
                         ;
 
 suite                   ::= TAB suite_helper DEDENT
-                        | LINE_END suite
                         |
                         ;
 
-suite_helper            ::= statement suite_helper
-                        | LINE_END suite_helper
-                        |
+suite_helper            ::= actions
+                        | new_lines
                         ;
                         
 print                   ::= P_PRINT print_content
@@ -178,6 +184,18 @@ assignee                ::= constant
                         | tuple
                         | dictionary
                         | array
+                        | function_call
+                        ;
+
+function_call           ::= IDENT D_PARENTHESIS_L func_call_args D_PARENTHESIS_R
+                        ;
+
+func_call_args          ::= assignee func_call_args_helper
+                        |
+                        ;
+
+func_call_args_helper   ::= D_COMMA assignee func_call_args_helper
+                        |
                         ;
 
 tuple                   ::= D_PARENTHESIS_L tuple_content  D_PARENTHESIS_R
