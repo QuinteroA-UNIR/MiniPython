@@ -19,7 +19,9 @@ terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, 
 
 
 non terminal program, statement, simple_statement, compound_statement, assign, assignee, constant, suite, suite_helper;
-non terminal if_condition, if_statement, if_ending;
+non terminal if_condition, if_statement, if_ending, if_ident_helper;
+non terminal in_arguments;
+non terminal for_statement;
 non terminal print, print_content;
 non terminal tuple, tuple_content, tuple_content_helper;
 non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
@@ -42,23 +44,34 @@ statement               ::= simple_statement
                         ;
 
 compound_statement      ::= if_statement
-                        ;
-
-
-if_condition            ::= boolean
-                        | IDENT
-                        | O_NOT IDENT
+                        | for_statement
                         ;
 
 if_statement            ::= P_IF if_condition D_COLON LINE_END suite if_ending
+                        ;
+
+if_condition            ::= boolean
+                        | O_NOT IDENT
+                        | IDENT if_ident_helper
+                        ;
+
+if_ident_helper         ::= P_IN in_arguments
+                        | 
                         ;
 
 if_ending               ::= P_ELSE D_COLON LINE_END suite P_ENDIF
                         | P_ENDIF
                         ;
 
+for_statement           ::= P_FOR IDENT P_IN in_arguments D_COLON LINE_END suite P_ENDFOR
+                        ;
+
+in_arguments            ::= dictionary
+                        | IDENT
+                        ;
+
 suite                   ::= TAB suite_helper DEDENT
-                        | LINE_END
+                        | LINE_END suite
                         |
                         ;
 

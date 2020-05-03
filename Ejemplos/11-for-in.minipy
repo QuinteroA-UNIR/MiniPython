@@ -1,0 +1,25 @@
+for x in impares:
+	if x in impares:
+		print(x)
+	endif
+endfor
+
+for x in impares:
+endfor
+
+for x in impares:
+	# commerntass
+endfor
+
+for x in impares:
+# commerntass
+
+	if True:
+		for x in x:
+			return x + 1
+		endfor
+		x = {"a":a}
+	else:
+		return False
+	endif
+endfor
