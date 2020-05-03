@@ -13,15 +13,15 @@ terminal O_COMPARE, O_DISTINCT, O_GT, O_LT, O_GET, O_LET;
 //boolean
 terminal O_AND, O_OR, O_NOT;
 // reserved kw 
-terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF;
+terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF, P_RETURN;
 // delimiters
 terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, D_BRACE_R, D_COMMA, D_COLON;
 
 
-non terminal program, statement, simple_statement, compound_statement, assign, assignee, constant, suite, suite_helper;
+non terminal program, statement, compound_statement, assign, assignee, constant, suite, suite_helper;
 non terminal if_condition, if_statement, if_ending, if_ident_helper;
-non terminal in_arguments;
-non terminal for_statement;
+non terminal for_statement, in_arguments;
+non terminal def_statement, func_arguments, func_arguments_helper, function_body, func_body_helper, func_body_stmts;
 non terminal print, print_content;
 non terminal tuple, tuple_content, tuple_content_helper;
 non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
@@ -38,13 +38,40 @@ program                 ::= statement program
                         |
                         ;
 
-statement               ::= simple_statement
-                        | compound_statement
+statement               ::= compound_statement
+                        | assign
                         | assignee
                         ;
 
-compound_statement      ::= if_statement
+compound_statement      ::= def_statement
+                        | if_statement
                         | for_statement
+                        | print
+                        ;
+
+def_statement           ::= P_DEF IDENT D_PARENTHESIS_L func_arguments D_PARENTHESIS_R D_COLON function_body P_ENDDEF
+                        ;
+
+func_arguments          ::= IDENT func_arguments_helper
+                        |
+                        ;
+
+func_arguments_helper   ::= D_COMMA IDENT func_arguments_helper
+                        |
+                        ;
+
+function_body           ::= TAB func_body_helper DEDENT
+                        | LINE_END function_body
+                        |
+                        ;
+
+func_body_helper        ::= func_body_stmts func_body_helper
+                        | LINE_END func_body_helper
+                        |
+                        ;
+
+func_body_stmts         ::= statement
+                        | P_RETURN assignee
                         ;
 
 if_statement            ::= P_IF if_condition D_COLON LINE_END suite if_ending
@@ -80,15 +107,10 @@ suite_helper            ::= statement suite_helper
                         |
                         ;
                         
-
-simple_statement        ::= assign
-                        | print
-                        ;
-
 print                   ::= P_PRINT print_content
                         ;
 
-print_content           ::= D_PARENTHESIS_L simple_statement D_PARENTHESIS_R
+print_content           ::= D_PARENTHESIS_L assign D_PARENTHESIS_R
                         | assignee
                         ;
 

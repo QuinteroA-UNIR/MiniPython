@@ -16,10 +16,10 @@ for x in impares:
 
 	if True:
 		for x in x:
-			return x + 1
+			print x + 1
 		endfor
 		x = {"a":a}
 	else:
-		return False
+		print False
 	endif
 endfor

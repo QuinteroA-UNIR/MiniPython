@@ -67,6 +67,9 @@ ConstanteBooleana = {Verdadero} | {Falso}
 "enddef"                        {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
                                 System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_ENDDEF);}
+"return"                        {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
+                                return new Symbol(sym.P_RETURN);}
 
 //Operadores booleanos
 "and"                           {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
