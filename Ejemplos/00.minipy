@@ -1,5 +1,44 @@
-x = 100
+# this is the first comment
+spam = 1 # and this is the second comment
 
-# cometariasndaskndasljkndasl
 
-x = 150
+height = 5 * 9
+x = 5 ** 2 # 5 squared
+tax = 12.5 / 100
+s = 'First line'
+s2 = "Second line"
+
+
+meses = ('Enero', 'Febrero', 'Marzo') # tupla
+impares = [1,3,5] # lista
+params = {'Width':30, "Height":20}
+
+print height
+print(height)
+
+if x < 0:
+	x=0
+else:
+	print 'More'
+endif
+
+for m in meses:
+	print m
+endfor
+
+for x in impares:
+	if x in impares:
+		print(x)
+	endif
+endfor
+
+def suma(x):
+	ret = 0
+	for n in x:
+		ret = ret + n
+	endfor
+	return ret
+enddef
+
+x = [2, 4, 7, 12, 3]
+total = suma(x)
