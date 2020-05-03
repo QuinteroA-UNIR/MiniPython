@@ -1,0 +1,264 @@
+// markers
+terminal LINE_END, TAB;
+// idents
+terminal IDENT, DEDENT;
+// constants
+terminal C_BOOL, C_INT, C_REAL, C_TXT;
+// operators
+terminal OP_EQ;
+//arithmetic
+terminal O_PLUS, O_MINUS, O_MULT, O_DIV, O_MOD, O_POW, O_FLOOR;
+//comparison
+terminal O_COMPARE, O_DISTINCT, O_GT, O_LT, O_GET, O_LET;
+//boolean
+terminal O_AND, O_OR, O_NOT;
+// reserved kw 
+terminal P_PRINT ,P_IF ,P_ELSE ,P_ENDIF ,P_FOR ,P_IN ,P_ENDFOR ,P_DEF ,P_ENDDEF, P_RETURN;
+// delimiters
+terminal D_PARENTHESIS_L, D_PARENTHESIS_R, D_BRACKET_L, D_BRACKET_R, D_BRACE_L, D_BRACE_R, D_COMMA, D_COLON;
+
+non terminal program, actions, new_lines, statements, statement, compound_statement;
+non terminal assign, assignee, constant, suite, suite_helper;
+non terminal if_condition, if_statement, if_ending, if_ident_helper;
+non terminal for_statement, in_arguments;
+non terminal def_statement, func_arguments, func_arguments_helper;
+non terminal print, print_content;
+non terminal return, return_helper;
+non terminal function_call, func_call_args, func_call_args_helper;
+non terminal tuple, tuple_content, tuple_content_helper;
+non terminal dictionary, dictionary_content, dict_content_helper, key_value_pair;
+non terminal array, array_content, array_content_helper;
+non terminal text, text_constants;
+non terminal numeric, numeric_constants;
+non terminal boolean, boolean_constants;
+non terminal arithmetic, arithmetic_op, extra_arithmetic ,arithmetic_operands;
+non terminal comparison, comparison_op, extra_comparison, comparison_operands;
+non terminal boolean_arith, boolean_op, extra_boolean, boolean_operands;
+
+
+
+program                 ::= actions
+                        | new_lines
+                        ;
+
+actions                 ::= new_lines statement statements
+                        ;
+           
+return                  ::= P_RETURN return_helper
+                        ;
+
+return_helper           ::= assignee
+                        |
+                        ;
+
+new_lines               ::= LINE_END new_lines
+                        |
+                        ;
+
+statements              ::= LINE_END new_lines statement statements
+                        | new_lines
+                        ;
+
+statement               ::= compound_statement
+                        | assign
+                        | assignee
+                        | print
+                        | return
+                        ;
+
+compound_statement      ::= def_statement
+                        | if_statement
+                        | for_statement
+                        ;
+
+def_statement           ::= P_DEF IDENT D_PARENTHESIS_L func_arguments D_PARENTHESIS_R D_COLON new_lines suite P_ENDDEF
+                        ;
+
+func_arguments          ::= IDENT func_arguments_helper
+                        |
+                        ;
+
+func_arguments_helper   ::= D_COMMA IDENT func_arguments_helper
+                        |
+                        ;
+
+if_statement            ::= P_IF if_condition D_COLON LINE_END new_lines suite if_ending
+                        ;
+
+if_condition            ::= boolean
+                        | O_NOT IDENT
+                        | IDENT if_ident_helper
+                        ;
+
+if_ident_helper         ::= P_IN in_arguments
+                        | 
+                        ;
+
+if_ending               ::= P_ELSE D_COLON LINE_END new_lines suite P_ENDIF
+                        | P_ENDIF
+                        ;
+
+for_statement           ::= P_FOR IDENT P_IN in_arguments D_COLON LINE_END new_lines suite P_ENDFOR
+                        ;
+
+in_arguments            ::= dictionary
+                        | IDENT
+                        ;
+
+suite                   ::= TAB suite_helper DEDENT
+                        |
+                        ;
+
+suite_helper            ::= actions
+                        | new_lines
+                        ;
+                        
+print                   ::= P_PRINT print_content
+                        ;
+
+print_content           ::= D_PARENTHESIS_L assign D_PARENTHESIS_R
+                        | assignee
+                        ;
+
+arithmetic_operands     ::= numeric_constants
+                        | IDENT
+                        ;
+
+comparison_operands     ::= numeric_constants
+                        | boolean_constants
+                        | text_constants
+                        | IDENT
+                        ;
+
+boolean_operands        ::= O_NOT boolean_operands
+                        | boolean_constants
+                        | IDENT
+                        ;
+
+arithmetic              ::= arithmetic_operands arithmetic_op arithmetic_operands extra_arithmetic
+                        ;
+
+extra_arithmetic        ::= arithmetic_op arithmetic_operands extra_arithmetic
+                        |
+                        ;
+
+comparison              ::= comparison_operands comparison_op comparison_operands extra_comparison
+                        ;
+                
+extra_comparison        ::= comparison_op comparison_operands extra_comparison
+                        |
+                        ;
+
+boolean_arith           ::= boolean_operands boolean_op boolean_operands extra_boolean
+                        ;
+
+extra_boolean           ::= boolean_op boolean_operands extra_boolean
+                        |
+                        ;
+
+arithmetic_op            ::= O_PLUS
+                        | O_MINUS
+                        | O_MULT
+                        | O_DIV
+                        | O_MOD
+                        | O_POW
+                        | O_FLOOR
+                        ;
+
+comparison_op           ::= O_COMPARE
+                        | O_DISTINCT
+                        | O_GT
+                        | O_LT
+                        | O_GET
+                        | O_LET
+                        ;
+
+boolean_op              ::= O_AND
+                        | O_OR
+                        ;
+
+assign                  ::= IDENT OP_EQ assignee
+                        ;
+
+assignee                ::= constant
+                        | tuple
+                        | dictionary
+                        | array
+                        | function_call
+                        ;
+
+function_call           ::= IDENT D_PARENTHESIS_L func_call_args D_PARENTHESIS_R
+                        ;
+
+func_call_args          ::= assignee func_call_args_helper
+                        |
+                        ;
+
+func_call_args_helper   ::= D_COMMA assignee func_call_args_helper
+                        |
+                        ;
+
+tuple                   ::= D_PARENTHESIS_L tuple_content  D_PARENTHESIS_R
+                        ;
+
+tuple_content           ::= assignee tuple_content_helper
+                        |
+                        ;
+                
+tuple_content_helper    ::= D_COMMA assignee tuple_content_helper
+                        | 
+                        ;
+
+dictionary              ::= D_BRACE_L dictionary_content D_BRACE_R
+                        ;
+
+dictionary_content      ::= key_value_pair dict_content_helper
+                        |
+                        ;
+
+dict_content_helper     ::= D_COMMA key_value_pair dict_content_helper
+                        |
+                        ;
+
+key_value_pair          ::= text_constants D_COLON assignee
+                        ;
+
+array                   ::= D_BRACKET_L array_content D_BRACKET_R
+                        ;
+
+array_content           ::= assignee array_content_helper
+                        |
+                        ;
+
+array_content_helper    ::= D_COMMA assignee array_content_helper
+                        |
+                        ;
+
+numeric                 ::= numeric_constants
+                        | arithmetic
+                        ;
+
+boolean                 ::= boolean_constants
+                        | comparison
+                        | boolean_arith
+                        | O_NOT boolean_constants
+                        ;
+
+text                    ::= text_constants
+                        ;
+
+constant                ::= boolean
+                        | text
+                        | numeric
+                        | IDENT
+                        ;
+
+numeric_constants       ::= C_INT
+                        | C_REAL
+                        ;
+
+boolean_constants       ::= C_BOOL
+                        ;
+
+text_constants          ::= C_TXT
+                        ;

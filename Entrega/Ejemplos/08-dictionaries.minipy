@@ -1,0 +1,4 @@
+x = { }
+x = { 'Width': 30, "Height": 20 }
+x = { 'Width': {}, "Height": (20,30) }
+x = { 'Width': { 'Width': False, "Height": (20,30), 'Hola':1e23 }, "Height": (20,30) }

@@ -1,0 +1,33 @@
+def suma(x):
+	ret = 0
+	for n in x:
+		ret = ret + n
+	endfor
+	return x
+enddef
+
+def suma():
+	def resta(x,y,z):
+		return
+	enddef
+	for n in x:
+		x = resta(asd)
+		x = resta(asd, {"A":1}, {}, (), True)
+		x = resta()
+		ret = ret + n
+		return x
+	endfor
+enddef
+
+
+suma(1)
+return
+
+
+
+x + 1
+[1,2,3,4]
+
+
+
+

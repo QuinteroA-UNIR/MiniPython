@@ -1,0 +1,45 @@
+if x < 0:
+	x=0
+else:
+	print 'More'
+endif
+
+if True:
+	x=0
+endif
+
+
+#no se permiten if blocks con tabulador sin contenido, ej:
+#if not False:
+#	
+#endif
+
+if not False:
+	#comment
+endif
+
+if x:
+endif
+
+
+if not x:
+else:
+endif
+
+if not x or y:
+else:
+endif
+
+if not isTrue:
+	if isReallyTrue:
+		print 'Fake'
+	else:
+		if iLoveLife:
+			print('True')
+		endif
+	endif
+else:
+endif
+
+
+

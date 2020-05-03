@@ -1,0 +1,6 @@
+#!/bin/bash
+rm -f *.class
+rm -f Lexer.java
+rm -f parser.java
+rm -f sym.java
+rm -f *.java~
