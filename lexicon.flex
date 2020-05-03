@@ -200,7 +200,7 @@ ConstanteBooleana = {Verdadero} | {Falso}
 
 . {
     if(stack.isEmpty()) { s = 0; } else { s = stack.peek();}
-    if (s < num_tab && flag==1){
+    if (s == num_tab - 1 && flag==1){
         yybegin(YYINITIAL);
         yypushback(1);
         stack.push(num_tab);
