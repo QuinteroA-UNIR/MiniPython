@@ -1,4 +1,5 @@
 import java_cup.runtime.*;
+import java.util.Stack;
 
 %%
 
@@ -7,6 +8,14 @@ import java_cup.runtime.*;
 %unicode
 %line
 %column
+
+%{
+    int dedent, s, num_tab;
+    int flag = 0;
+    Stack<Integer> stack = new Stack<Integer>();
+%}
+
+%state INDENTATION
 
 // Macros
 Espacio = " "
@@ -29,108 +38,150 @@ Falso = "False"
 ConstanteBooleana = {Verdadero} | {Falso}
 
 %%
+<YYINITIAL> {
 // Palabras reservadas
-"print"                         {System.out.println("Palabra reservada: " + yytext());
+"print"                         {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_PRINT);}
-"if"                            {System.out.println("Palabra reservada: " + yytext());
+"if"                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_IF);}
-"else"                          {System.out.println("Palabra reservada: " + yytext());
+"else"                          {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_ELSE);}
-"endif"                         {System.out.println("Palabra reservada: " + yytext());
+"endif"                         {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_ENDIF);}
-"for"                           {System.out.println("Palabra reservada: " + yytext());
+"for"                           {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_FOR);}
-"in"                            {System.out.println("Palabra reservada: " + yytext());
+"in"                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_IN);}
-"endfor"                        {System.out.println("Palabra reservada: " + yytext());
+"endfor"                        {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_ENDFOR);}
-"def"                           {System.out.println("Palabra reservada: " + yytext());
+"def"                           {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_DEF);}
-"enddef"                        {System.out.println("Palabra reservada: " + yytext());
+"enddef"                        {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Palabra reservada: " + yytext());
                                 return new Symbol(sym.P_ENDDEF);}
 
 //Operadores booleanos
-"and"                           {System.out.println("Operador: " + yytext());
+"and"                           {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_AND);}
-"or"                            {System.out.println("Operador: " + yytext());
+"or"                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_OR);}
-"not"                           {System.out.println("Operador: " + yytext());
+"not"                           {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_NOT);}
 
-{ConstanteBooleana}             {System.out.println("Constante booleana: " + yytext());
+{ConstanteBooleana}             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Constante booleana: " + yytext());
                                 return new Symbol(sym.C_BOOL);}
-{Identificador}                 {System.out.println("Identificador: "+ yytext());
+{Identificador}                 {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Identificador: "+ yytext());
                                 return new Symbol(sym.IDENT);}
-{ConstanteEntera}               {System.out.println("Constante Entera: " + yytext());
+{ConstanteEntera}               {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Constante Entera: " + yytext());
                                 return new Symbol(sym.C_INT);}
-{ConstanteReal}                 {System.out.println("Constante Real: " + yytext());
+{ConstanteReal}                 {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Constante Real: " + yytext());
                                 return new Symbol(sym.C_REAL);}
-{ConstanteTexto}                {System.out.println("Constante de texto: " + yytext());
+{ConstanteTexto}                {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Constante de texto: " + yytext());
                                 return new Symbol(sym.C_TXT);}
 {ComentarioLinea}               {System.out.println("Comentario de linea: " + yytext());}
 
 //Operadores Artimeticos
-"+"                             {System.out.println("Operador: " + yytext());
+"+"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_PLUS);}
-"-"                             {System.out.println("Operador: " + yytext());
+"-"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_MINUS);}
-"*"                             {System.out.println("Operador: " + yytext());
+"*"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_MULT);}
-"/"                             {System.out.println("Operador: " + yytext());
+"/"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_DIV);}
-"%"                             {System.out.println("Operador: " + yytext());
+"%"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_MOD);}
-"**"                            {System.out.println("Operador: " + yytext());
+"**"                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_POW);}
-"//"                            {System.out.println("Operador: " + yytext());
+"//"                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_FLOOR);}
 //Operadores Comparativos
-"=="                            {System.out.println("Operador: " + yytext());
+"=="                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_COMPARE);}
-"!="                            {System.out.println("Operador: " + yytext());
+"!="                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_DISTINCT);}
-"<>"                            {System.out.println("Operador: " + yytext());
+"<>"                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_DISTINCT);}
-">"                             {System.out.println("Operador: " + yytext());
+">"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_GT);}
-"<"                             {System.out.println("Operador: " + yytext());
+"<"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_LT);}
-">="                            {System.out.println("Operador: " + yytext());
+">="                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_GET);}
-"<="                            {System.out.println("Operador: " + yytext());
+"<="                            {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.O_LET);}
 //Operadores de asignacion
-"="                             {System.out.println("Operador: " + yytext());
+"="                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Operador: " + yytext());
                                 return new Symbol(sym.OP_EQ);}
 
 //Delimitadores
-"("                             {System.out.println("Delimitador: " + yytext());
+"("                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_PARENTHESIS_L);}
 
-")"                             {System.out.println("Delimitador: " + yytext());
+")"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_PARENTHESIS_R);}
 
-"["                             {System.out.println("Delimitador: " + yytext());
+"["                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_BRACKET_L);}
 
-"]"                             {System.out.println("Delimitador: " + yytext());
+"]"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_BRACKET_R);}
 
-"{"                             {System.out.println("Delimitador: " + yytext());
+"{"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_BRACE_L);}
 
-"}"                             {System.out.println("Delimitador: " + yytext());
+"}"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_BRACE_R);}
 
-","                             {System.out.println("Delimitador: " + yytext());
+","                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_COMMA);}
 
-":"                             {System.out.println("Delimitador: " + yytext());
+":"                             {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: " + yytext());
                                 return new Symbol(sym.D_COLON);}
 
 {Tabulador}                     {System.out.println("Delimitador: tabulador");
-                                return new Symbol(sym.TAB);}
-{FinLinea}                      {System.out.println("Delimitador: fin linea");
+                                if(yycolumn == 0){num_tab=1;flag=1;yybegin(INDENTATION);}}
+{FinLinea}                      {if(!stack.isEmpty() && yycolumn==0){ System.out.println("Dedent"); yypushback(yytext().length()); stack.pop(); return new Symbol(sym.DEDENT);}
+                                System.out.println("Delimitador: fin linea");
                                 return new Symbol(sym.LINE_END);}
 {Espacio}                       {}
 // Fin de fichero
@@ -138,3 +189,30 @@ ConstanteBooleana = {Verdadero} | {Falso}
 
 // Simbolo inesperado
 [^]                             { System.out.println("Simbolo inesperado: \"" + yytext() + "\". linea: " + yyline + " col: " + yycolumn); System.exit(0); }
+}
+
+<INDENTATION>{
+
+{Tabulador}                     { num_tab++; }
+
+. {
+    if(stack.isEmpty()) { s = 0; } else { s = stack.peek();}
+    if (s < num_tab && flag==1){
+        yybegin(YYINITIAL);
+        yypushback(1);
+        stack.push(num_tab);
+        return new Symbol(sym.TAB); 
+    } else if (s > num_tab && !stack.isEmpty()) {
+        flag = 0;
+        yypushback(1);
+        stack.pop();
+        return new Symbol(sym.DEDENT);
+    } else if(s == num_tab ) {
+        yybegin(YYINITIAL);
+        yypushback(1);
+    } else {
+        System.out.println("Indentacion erronea: linea: " + yyline + " col: " + yycolumn); System.exit(0);
+    }
+}
+
+}

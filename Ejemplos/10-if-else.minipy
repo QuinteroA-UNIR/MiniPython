@@ -8,13 +8,38 @@ if True:
 	x=0
 endif
 
-if not True:
-	#sasdlkmaslkdm
+
+#no se permiten if blocks con tabulador sin contenido, ej:
+#if not False:
+#	
+#endif
+
+if not False:
+	#comment
 endif
 
 if x:
 endif
 
-if not True:
+
+if not x:
 else:
 endif
+
+if not x or y:
+else:
+endif
+
+if not isTrue:
+	if isReallyTrue:
+		print 'Fake'
+	else:
+		if iLoveLife:
+			print('True')
+		endif
+	endif
+else:
+endif
+
+
+
